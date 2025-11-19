@@ -1,164 +1,102 @@
-# Games
-Proyecto de análisis de datos históricos de ventas y reseñas de videojuegos, para identificar patrones que indiquen cuáles tienen mayor probabilidad de éxito.
+# 📡 Interconnect Churn Prediction
+## Telecom Customer Churn Modeling – Machine Learning Project
 
-🎮 Video Game Sales Analysis — Ice Store (2016)
-<p align="center"> <img src="https://img.shields.io/badge/Status-Completed-brightgreen" /> <img src="https://img.shields.io/badge/Notebook-Jupyter-orange" /> <img src="https://img.shields.io/badge/Python-3.10-blue" /> <img src="https://img.shields.io/badge/Visualization-Matplotlib%20%7C%20Seaborn-yellow" /> </p>
-
-📑 Tabla de Contenidos
-
-- 📌 Descripción del Proyecto
-- 🧠 Enfoque de la Solución
-- 🛠️ Tecnologías Utilizadas
-- 📊 Principales Hallazgos
-  - 📈 Evolución de la industria
-  - 🎮 Plataformas más rentables
-  - 🧩 Géneros más exitosos
-  - 🌍 Preferencias por región
-  - ⭐ Influencia de las reseñas
-  - 🔬 Resultados de hipótesis
-- 🧾 Conclusiones
+<p align="center"> <img src="https://img.shields.io/badge/Status-Completed-brightgreen" /> <img src="https://img.shields.io/badge/Notebook-Jupyter-orange" /> <img src="https://img.shields.io/badge/Python-3.10-blue" /> <img src="https://img.shields.io/badge/Visualization-Matplotlib%20%7C%20Seaborn-yellow" /> <img src="https://img.shields.io/badge/ML-LogisticRegression%20%7C%20RandonForestRegression%20%7C%20LightGBM%20%7C%20XGBoost%20%7C%20CatBoost-violet" /> </p>
 
 
-📌 Descripción del Proyecto
+📚 Tabla de Contenidos
 
-Este proyecto analiza datos históricos de ventas y reseñas de videojuegos para Ice, una tienda online de distribución global de títulos y consolas.
+- 📄 Descripción del Proyecto
+- 🧰 Tecnologías Utilizadas
+- 🛠️ Proceso de Desarrollo
+- 📊 Resultados del Modelo
+- 🧠 Conclusiones
 
-El objetivo principal es identificar patrones que indiquen cuáles videojuegos tienen mayor probabilidad de éxito, con el fin de planificar las campañas de marketing y priorizar lanzamientos para el año 2017, situándonos analíticamente en diciembre de 2016.
 
-Los datos incluyen:
+📄 Descripción del Proyecto
 
-- Ventas por región (NA, EU, JP, Others)
-- Puntuaciones de usuarios y críticos
-- Género del juego
-- Plataforma
-- Año de lanzamiento
-- Clasificación ESRB
+El operador de telecomunicaciones Interconnect busca anticipar la cancelación de clientes (churn) para mejorar sus estrategias de retención mediante promociones, descuentos y cambios de plan personalizados.
 
-🧠 Enfoque de la Solución
+El objetivo es desarrollar un modelo de Machine Learning capaz de predecir con alta precisión si un cliente dará de baja sus servicios.
 
-El análisis fue estructurado en seis etapas clave:
+La información proviene de cuatro archivos:
 
-1. Preparación y Limpieza de Datos
+- contract.csv — datos del contrato
+- personal.csv — información personal del cliente
+- internet.csv — servicios relacionados a Internet
+- phone.csv — servicios telefónicos
 
-- Estandarización de columnas (snake_case)
-- Conversión de tipos y tratamiento de valores faltantes
-- Gestión de categorías desconocidas (unknown)
-- Creación de la métrica total_sales
+La variable objetivo es churn (1 = canceló, 0 = activo).
+
+La métrica principal es AUC-ROC, y la métrica secundaria Accuracy.
+
+🧰 Tecnologías Utilizadas
+
+- Python 3.10+
+- Pandas, NumPy — análisis y manipulación de datos
+- Matplotlib, Seaborn — visualización
+- Scikit-Learn — modelos, pipelines y métricas
+- Jupyter Notebook — experimentación y documentación
+- GridSearchCV / RandomizedSearchCV — tuning de hiperparámetros
+- CatBoost
+- XGBoost
+- LightGBM
+
+🛠️ Proceso de Desarrollo
+1. Exploración y Limpieza de Datos
+    - Unión de tablas con customerID.
+    - Conversión de fechas (BeginDate, EndDate).
+    - Cálculo de la antigüedad del cliente: tenure_months.
+    - Limpieza de valores nulos:
+    - Servicios de Internet → NoInternet
+    - Servicios telefónicos → NoPhone
+    - TotalCharges faltantes → MonthlyCharges × tenure
+    - Conversión de variables binarias (Yes/No → 1/0).
+    - Normalización de variables categóricas mediante One-Hot Encoding.
 
 2. Análisis Exploratorio (EDA)
 
-- Frecuencia de lanzamientos por año
-- Ciclos de vida de plataformas
-- Identificación de plataformas líderes
-- Análisis de géneros y ventas globales
-- Estudio de juegos multiplataforma
+    - Identificación de patrones de churn:
+      - Los clientes con contratos month-to-month presentan mayor tasa de cancelación.
+      - La tecnología Fiber Optic incrementa la probabilidad de churn.
+      - Las facturas electrónicas y métodos de pago automáticos muestran comportamientos distintos.
+    - Visualización de distribuciones, correlaciones y relaciones clave.
 
-3. Selección de Datos Relevantes
+3. Entrenamiento de Modelos
 
-Se seleccionó el período 2013–2015, ya que los datos de 2016 parecen incompletos y estos tres años representan mejor el comportamiento reciente del mercado.
+- Modelos evaluados:
+    - Regresión Logística
+    - Random Forest
+    - Gradient Boosting
+    - XGBoost
+    - LightGBM
+    - Árboles de decisión
 
-4. Perfil de Usuario por Región
+- Incluyendo:
+    - Manejo de desbalance con class_weight = 'balanced'
+    - Búsqueda de hiperparámetros
+    - Evaluación con AUC-ROC, Accuracy, Matriz de Confusión
 
-Para NA, EU y JP se identificaron:
+📊 Resultados del Modelo
 
-- Plataformas top
-- Géneros con mayor impacto
-- Influencia de la clasificación ESRB
-
-5. Correlaciones
-
-Comparación del efecto de:
-
-- Puntajes de críticos vs ventas
-- Puntajes de usuarios vs ventas
-
-6. Pruebas de Hipótesis
-
-Se aplicó test t de Student (Welch) para:
-
-- XOne vs PC → ¿tienen la misma calificación promedio?
-- Action vs Sports → ¿promedios iguales?
-
-🛠️ Tecnologías Utilizadas
-
-Lenguaje:
-
-- Python 3.10
-
-Librerías principales:
-
-- pandas → Limpieza y análisis
-- numpy → Operaciones numéricas
-- matplotlib & seaborn → Visualizaciones
-- scipy.stats → Pruebas de hipótesis
-- Jupyter Notebook → Documentación y desarrollo
-
-📊 Principales Hallazgos
-📈 Evolución de la industria
-
-- La cantidad de lanzamientos creció fuertemente hasta 2008–2009.
-- A partir de 2010, el número disminuye gradualmente.
-- Los años más confiables para análisis son desde 2000 en adelante.
-
-🎮 Plataformas más rentables (2013–2015)
-
-Las plataformas con más ventas totales fueron:
-
-| Plataforma   | Ventas Totales (M) |
-| ------------ | ------------------ |
-| **PS4**      | 244.89             |
-| **PS3**      | 177.83             |
-| **Xbox 360** | 135.28             |
-| **Xbox One** | 133.17             |
-| **3DS**      | 128.11             |
+| Modelo             | AUC-ROC         | Accuracy |
+| ------------------ | --------------- | -------- |
+| Mejor Modelo Final | **0.84 – 0.87** | ~80%     |
 
 
-➡️ PS4 y Xbox One son las únicas que muestran crecimiento, mientras las demás están en declive.
+✔ El modelo seleccionado muestra una capacidad robusta para identificar clientes con alta probabilidad de cancelar.
+✔ Se logra un equilibrio adecuado entre sensibilidad y especificidad, crucial en proyectos de churn.
 
-🧩 Géneros más exitosos
+Estos resultados permiten a Interconnect aplicar estrategias proactivas de retención.
 
-- Los géneros con mayor venta global fueron: Action, Shooter, Role-Playing.
-- Los géneros con mayor promedio por juego incluyen: Sports y Platform.
-- La correlación entre cantidad de juegos publicados y ventas es alta (0.86).
 
-🌍 Preferencias por región
+🧠 Conclusiones
 
-Norteamérica (NA)
-
-- Destacan: Action, Shooter, Sports
-- Dominan plataformas: PS4, XOne, X360
-
-Europa (EU)
-
-- Patrones similares a Norteamérica
-- Fuerte preferencia por PS4
-
-Japón (JP)
-
-- Domina Role-Playing
-- Plataformas portátiles (3DS, PSV) son líderes
-- Comportamiento de compra distinto al resto del mundo
-
-⭐ Influencia de las reseñas
-
-- La correlación entre críticas profesionales y ventas en PS4 es moderada (0.43).
-- La correlación con reseñas de usuarios es casi nula (0.02).
-
-➡️ Las reseñas de expertos influyen más en las ventas que las de usuarios.
-
-🔬 Resultados de hipótesis
-1. Xbox One vs PC
-
-- p-value < 0.05 : ➡️ Las calificaciones promedio son significativamente diferentes.
-
-2. Acción vs Deportes
-
-- p-value < 0.05 : ➡️ También son diferentes en promedio.
-
-🧾 Conclusiones
-
-- PS4 y Xbox One son las plataformas más rentables para campañas de marketing en 2017.
-- Los géneros Action, Shooter y Sports deben ser prioridad para alcanzar un mayor impacto global.
-- Japón requiere una estrategia distinta, enfocándose en Role-Playing y plataformas portátiles.
-- Las críticas profesionales tienen mayor influencia comercial que las reseñas de usuarios.
-- Los patrones de ventas varían significativamente por región, por lo que la estrategia debe adaptarse al mercado objetivo.
+- El modelo desarrollado permite identificar de forma anticipada a clientes con riesgo de cancelación.
+- La empresa puede implementar acciones enfocadas en retención: descuentos, mejoras de plan, beneficios especiales.
+- Las variables más relevantes fueron:
+    - Tipo de contrato
+    - Tecnología de Internet
+    - Método de pago
+    - Antigüedad del cliente
+- El proyecto demuestra un pipeline completo de ciencia de datos: EDA → Preparación → Modelado → Evaluación.
