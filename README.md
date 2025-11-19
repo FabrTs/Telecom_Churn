@@ -1,7 +1,7 @@
 # 📡 Interconnect Churn Prediction
 ## Telecom Customer Churn Modeling – Machine Learning Project
 
-<p align="center"> <img src="https://img.shields.io/badge/Status-Completed-brightgreen" /> <img src="https://img.shields.io/badge/Notebook-Jupyter-orange" /> <img src="https://img.shields.io/badge/Python-3.10-blue" /> <img src="https://img.shields.io/badge/Visualization-Matplotlib%20%7C%20Seaborn-yellow" /> <img src="https://img.shields.io/badge/ML-LogisticRegression%20%7C%20RandomForestRegression%20%7C%20LightGBM%20%7C%20XGBoost%20%7C%20CatBoost-violet" /> </p>
+<p align="center"> <img src="https://img.shields.io/badge/Status-Completed-brightgreen" /> <img src="https://img.shields.io/badge/Notebook-Jupyter-orange" /> <img src="https://img.shields.io/badge/Python-3.10-blue" /> <img src="https://img.shields.io/badge/Visualization-Matplotlib%20%7C%20Seaborn-yellow" /> <img src="https://img.shields.io/badge/ML-LogisticRegression%20%7C%20RandomForestRegression%20%7C%20LightGBM%20%7C%20XGBoost%20%7C%20CatBoost-purple" /> </p>
 
 
 📚 Tabla de Contenidos
